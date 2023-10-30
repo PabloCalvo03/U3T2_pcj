@@ -14,6 +14,8 @@ function Socio(numSocio, dni, nombre, apellidos, fechaNacimiento, localidad){
 let socios = [];
 
 const crearSocio = () => {
+    let existeDni = false;
+
     const numSocio = prompt("Introduce el numero de socio")
     const dni = prompt("Introduce el dni del socio");
     const nombre = prompt("Introduce el nombre del socio");
@@ -21,8 +23,19 @@ const crearSocio = () => {
     const fechaNacimiento = prompt("Introduce la fecha de nacimiento del socio");
     const localidad = prompt("Introduce la localidad del socio");
     const nuevoSocio = new Socio(numSocio, dni, nombre, apellidos, fechaNacimiento, localidad);
-    socios.push(nuevoSocio);
-    alert(`Socio ${nuevoSocio.nombre} con dni ${nuevoSocio.dni} creado con exito`)
+
+    for(let i = 0; i < socios.length; i++){
+        if(socio[i].dni == dni){
+            alert("Ya existe un usuario con ese dni");
+            existeDni = true;
+            return;
+        }
+    }
+
+    if(existeDni){
+        socios.push(nuevoSocio);
+        alert(`Socio ${nuevoSocio.nombre} con dni ${nuevoSocio.dni} creado con exito`)
+    }
 }
 
 const mostrarSocios = () => {
@@ -89,6 +102,16 @@ const darDeBajaSocio = () => {
     }
 }
 
+const cambiarLocalidad = () => {
+    const dni = prompt("Introduce el dni del socio: ");
+    const nuevaLocalidad = prompt("Introduce la localidad del socio:");
+    for(let i = 0; i < socios.length; i++){
+        if(socios[i].dni == dni){
+            socios[i].modificarLocalidad(nuevaLocalidad);
+        }
+    }
+}
+
 let terminado = false;
 
 while(terminado == false){
@@ -102,6 +125,9 @@ while(terminado == false){
             darDeBajaSocio();
         break;
         case "3":
+            cambiarLocalidad();
+        break;
+        case "4":
             mostrarSocios();
             terminado = true
         break;
